@@ -2,6 +2,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class Matrix implements ActionListener {
     private static int col, row;  //dimentions
@@ -800,5 +801,102 @@ public class Matrix implements ActionListener {
         Matrix m1 = new Matrix();
 
     }
+
+    public boolean isStrictlyDiagonalyDominant(){
+        double sum = 0;
+        boolean result = true;
+        if(row != col) {
+            return false;
+        }
+        for (int i = 0; i < row; i++){
+            for(int it = 0; it < col; it++) {
+                if(i != it){
+                    double aux = matrixA[i][it];
+                    if(aux < 0){
+                        sum += (-1) * aux;
+                    } else {
+                        sum += aux;
+                    }
+                }
+            }
+            if (sum > matrixA[i][i]) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public boolean isDiagonalyDominant(){
+        double sum = 0;
+        boolean result = true;
+        if(row != col) {
+            return false;
+        }
+        for (int i = 0; i < row; i++){
+            for(int it = 0; it < col; it++) {
+                if(i != it){
+                    double aux = matrixA[i][it];
+                    if(aux < 0){
+                        sum += (-1) * aux;
+                    } else {
+                        sum += aux;
+                    }
+                }
+            }
+            if (sum >= matrixA[i][i]) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public double getInfiniteNorm(){
+        ArrayList<Double> norma = new ArrayList<Double>();
+        for (int i = 0; i < row; i++) {
+            double sum = 0;
+            for (int it = 0; it < col; it++) {
+                double aux = matrixA[i][it];
+                if(aux < 0){
+                    sum += (-1) * aux;
+                } else {
+                    sum += aux;
+                }
+            }
+            norma.add(sum);
+        }
+        double aux = 0;
+        for (int i = 0; i < norma.size(); i++){
+            if(norma.get(i) > aux) {
+                aux = norma.get(i);
+            }
+        }
+        return aux;
+    }
+
+    public double getOneNorm(){
+        ArrayList<Double> norma = new ArrayList<Double>();
+        for (int i = 0; i < col; i++) {
+            double sum = 0;
+            for (int it = 0; it < row; it++) {
+                double aux = matrixA[it][i];
+                if(aux < 0){
+                    sum += (-1) * aux;
+                } else {
+                    sum += aux;
+                }
+            }
+            norma.add(sum);
+        }
+        double aux = 0;
+        for (int i = 0; i < norma.size(); i++){
+            if(norma.get(i) > aux) {
+                aux = norma.get(i);
+            }
+        }
+        return aux;
+    }
+
 }//end class
 
