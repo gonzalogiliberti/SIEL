@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Matrix implements ActionListener {
     private static int col, row;  //dimentions
     private static double matrixA[][];
-    private static double matrixB[];
+    private static double matrixB[][];
     private static char matrixX[];
     private static double tempMatrix[][];
     private static JTextField inputField[][];
@@ -18,6 +18,7 @@ public class Matrix implements ActionListener {
             newMatrixA, newMatrixB, newMatrixX;
     private static JPanel choosePanel[] = new JPanel[6];
     private static int lastCol, lastRow;
+    double cotaParo;
 
     /*
      * Methods:
@@ -236,7 +237,6 @@ public class Matrix implements ActionListener {
 //        choosePanel[6].add(Box.createHorizontalStrut(15)); // a spacer
 
 
-
         // Boton para setear la matriz A
         newMatrixA = new JButton("Nueva Matriz A");
         newMatrixA.setPreferredSize(new Dimension(175, 35));
@@ -254,9 +254,6 @@ public class Matrix implements ActionListener {
         newMatrixX.setPreferredSize(new Dimension(175, 35));
         newMatrixX.addActionListener(this);
         choosePanel[1].add(newMatrixX);
-
-
-
 
 
         showMatrix = new JButton("Mostrar la matriz A");
@@ -320,32 +317,23 @@ public class Matrix implements ActionListener {
 
         if (e.getSource() == showMatrix) {
             showMatrix(matrixA, "Matriz A");
-        }
-        else if (e.getSource() == newMatrixA) {
+        } else if (e.getSource() == newMatrixA) {
             newMatrix();
-        }
-        else if (e.getSource() == minusB) {
-            matrixMinusMatrix();
-        }
-        else if (e.getSource() == multiplyB) {
+        } else if (e.getSource() == newMatrixB) {
+            newMatrixB();
+        } else if (e.getSource() == multiplyB) {
             multiplyByMatrix();
-        }
-        else if (e.getSource() == inverseB) {
+        } else if (e.getSource() == inverseB) {
             inverse();
-        }
-        else if (e.getSource() == nMultiplyB) {
+        } else if (e.getSource() == nMultiplyB) {
             guiMultliplyByScaler();
-        }
-        else if (e.getSource() == nDivisionB) {
+        } else if (e.getSource() == nDivisionB) {
             divideByScaler();
-        }
-        else if (e.getSource() == transposing) {
+        } else if (e.getSource() == transposing) {
             guiTransposing(matrixA);
-        }
-        else if (e.getSource() == getValueB) {
+        } else if (e.getSource() == getValueB) {
             guiGetValue();
-        }
-        else if (e.getSource() == newMatrixA) {
+        } else if (e.getSource() == newMatrixA) {
 
         }
     }//end action performed
@@ -797,22 +785,29 @@ public class Matrix implements ActionListener {
         getDimension();
     }
 
+    private static void newMatrixB() {
+        if (row != 0 && col != 0){
+            matrixB = new double[row][1];
+            setElements(matrixB, "aaa");
+        }
+    }
+
     public static void main(String[] args) {
         Matrix m1 = new Matrix();
 
     }
 
-    public boolean isStrictlyDiagonalyDominant(){
+    public boolean isStrictlyDiagonalyDominant() {
         double sum = 0;
         boolean result = true;
-        if(row != col) {
+        if (row != col) {
             return false;
         }
-        for (int i = 0; i < row; i++){
-            for(int it = 0; it < col; it++) {
-                if(i != it){
+        for (int i = 0; i < row; i++) {
+            for (int it = 0; it < col; it++) {
+                if (i != it) {
                     double aux = matrixA[i][it];
-                    if(aux < 0){
+                    if (aux < 0) {
                         sum += (-1) * aux;
                     } else {
                         sum += aux;
@@ -827,17 +822,17 @@ public class Matrix implements ActionListener {
         return result;
     }
 
-    public boolean isDiagonalyDominant(){
+    public boolean isDiagonalyDominant() {
         double sum = 0;
         boolean result = true;
-        if(row != col) {
+        if (row != col) {
             return false;
         }
-        for (int i = 0; i < row; i++){
-            for(int it = 0; it < col; it++) {
-                if(i != it){
+        for (int i = 0; i < row; i++) {
+            for (int it = 0; it < col; it++) {
+                if (i != it) {
                     double aux = matrixA[i][it];
-                    if(aux < 0){
+                    if (aux < 0) {
                         sum += (-1) * aux;
                     } else {
                         sum += aux;
@@ -852,13 +847,13 @@ public class Matrix implements ActionListener {
         return result;
     }
 
-    public double getInfiniteNorm(){
+    public double getInfiniteNorm() {
         ArrayList<Double> norma = new ArrayList<Double>();
         for (int i = 0; i < row; i++) {
             double sum = 0;
             for (int it = 0; it < col; it++) {
                 double aux = matrixA[i][it];
-                if(aux < 0){
+                if (aux < 0) {
                     sum += (-1) * aux;
                 } else {
                     sum += aux;
@@ -867,21 +862,21 @@ public class Matrix implements ActionListener {
             norma.add(sum);
         }
         double aux = 0;
-        for (int i = 0; i < norma.size(); i++){
-            if(norma.get(i) > aux) {
+        for (int i = 0; i < norma.size(); i++) {
+            if (norma.get(i) > aux) {
                 aux = norma.get(i);
             }
         }
         return aux;
     }
 
-    public double getOneNorm(){
+    public double getOneNorm() {
         ArrayList<Double> norma = new ArrayList<Double>();
         for (int i = 0; i < col; i++) {
             double sum = 0;
             for (int it = 0; it < row; it++) {
                 double aux = matrixA[it][i];
-                if(aux < 0){
+                if (aux < 0) {
                     sum += (-1) * aux;
                 } else {
                     sum += aux;
@@ -890,13 +885,61 @@ public class Matrix implements ActionListener {
             norma.add(sum);
         }
         double aux = 0;
-        for (int i = 0; i < norma.size(); i++){
-            if(norma.get(i) > aux) {
+        for (int i = 0; i < norma.size(); i++) {
+            if (norma.get(i) > aux) {
                 aux = norma.get(i);
             }
         }
         return aux;
     }
 
+    public void gaussSeidel(double[] vectorInicial){
+        int iterations = 0;
+        double epsilon = cotaParo;
+
+        double[][] M = new double[row][col+1];
+        for(int i = 0; i < row; i++) {
+            for (int it = 0; it < col; it++){
+                M[i][it] = matrixA[i][it];
+            }
+            M[i][col+1] = matrixB[i][1];
+        }
+
+        int n = M.length;
+        double[] X = vectorInicial; // Approximations
+        double[] P = new double[n]; // Prev
+
+        while (true)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                double sum = M[i][n]; // b_n
+
+                for (int j = 0; j < n; j++)
+                    if (j != i)
+                        sum -= M[i][j] * X[j];
+
+                // Update x_i to use in the next row calculation
+                X[i] = 1/M[i][i] * sum;
+            }
+
+            System.out.print("X_" + iterations + " = {");
+            for (int i = 0; i < n; i++)
+                System.out.print(X[i] + " ");
+            System.out.println("}");
+
+            iterations++;
+            if (iterations == 1)
+                continue;
+
+            boolean stop = true;
+            for (int i = 0; i < n && stop; i++)
+                if (Math.abs(X[i] - P[i]) > epsilon)
+                    stop = false;
+
+            if (stop ) break;
+            P = X.clone();
+        }
+    }
 }//end class
 
